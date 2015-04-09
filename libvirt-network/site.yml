@@ -1,0 +1,7 @@
+---
+# This playbook sets up the libvirt network which configures the dns, tftp and DHCP.
+- hosts: all
+  sudo: true
+
+  roles:
+    - network

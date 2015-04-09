@@ -1,0 +1,26 @@
+<!-- {{ ansible_managed }} -->
+<network>
+  <name>{{ item.name | default('default', true) }}</name>
+  <forward mode='{{ item.forward }}'/>
+  <bridge name='{{ item.bridge }}' stp='on' delay='0' />
+  <mac address='{{ item.mac }}' />
+  <dns>
+{% for host in item.hosts %}
+    <host ip='{{ host.ip }}'>
+      <hostname>{{ host.name }}</hostname>
+    </host>
+{% endfor %}
+  </dns>
+  <ip address='{{ item.ip_address }}' netmask='{{ item.ip_netmask }}'>
+    <tftp root='{{ item.tftp }}' />
+{% if item.dhcp_start is defined %}
+    <dhcp>
+      <range start='{{ item.dhcp_start }}' end='{{ item.dhcp_end }}' />
+{% for host in item.hosts %}
+      <host mac='{{ host.mac }}' name='{{ host.name }}' ip='1{{ host.ip }}' />
+{% endfor %}
+      <bootp file='{{ item.bootp.file }}' server='{{ item.bootp.server }}' />
+    </dhcp>
+{% endif %}
+  </ip>
+</network>

@@ -1,0 +1,18 @@
+---
+libvirt_bridge_path: '/etc/libvirt/ansible/networks'
+libvirt_bridges:
+- name: default
+  forward: nat
+  bridge: virbr0
+  mac: '52:54:00:6B:11:87'
+  hosts:
+    - {mac: '52:54:00:c6:73:4f', name: 'beaker-server-lc.beaker', ip: '192.168.122.102'}
+    - {mac: '52:54:00:c6:71:8e', name: 'beaker-test-vm1', ip: '192.168.122.103'}
+    - {mac: '52:54:00:c6:71:8f', name: 'beaker-test-vm2', ip: '192.168.122.104'}
+    - {mac: '52:54:00:c6:71:90', name: 'beaker-test-vm3', ip: '192.168.122.105'}
+  ip_address: 192.168.122.1
+  ip_netmask: 255.255.255.0
+  tftp: '/var/lib/tftpboot'
+  dhcp_start: 192.168.122.2
+  dhcp_end: 192.168.122.254
+  bootp: {file: 'pxelinux.0', server: '192.168.122.102'}
