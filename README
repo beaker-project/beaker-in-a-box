@@ -1,0 +1,14 @@
+Beaker in a box
+
+A stash of Ansible playbooks and Vagrant that allow you to install and configure a complete
+working Beaker environment, including three virtual guests to act as test systems.
+
+Requirements
+  - Ansible
+  - Host capable of running libvirt
+  - Vagrant
+
+Set up libvirt Network on the host
+  - make sure you can SSH to localhost without password
+  - run `ansible-playbook -i hosts site.yml -K`
+    This command will create a libvirt network.
