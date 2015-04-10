@@ -10,7 +10,7 @@
 {% for host in item.hosts %}
       <host mac='{{ host.mac }}' name='{{ host.name }}' ip='{{ host.ip }}' />
 {% endfor %}
-      <bootp file='{{ item.bootp_file }}' />
+      <bootp file='{{ item.bootp.file }}' server='{{ item.bootp.server }}' />
     </dhcp>
 {% endif %}
   </ip>
