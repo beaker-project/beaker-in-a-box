@@ -1,0 +1,53 @@
+# Based on https://github.com/henrysher/fedora-infra-ansible/blob/master/tasks/yumrepos.yml
+---
+- name: put rhel repos on rhel6 systems
+  action: copy src="{{ item }}" dest="/etc/yum.repos.d/{{ item }}"
+  with_items:
+    - epel6.repo
+    - rhel6.repo
+  when: ansible_distribution == 'RedHat' and ansible_distribution_major_version == '6'
+
+- name: put rhel repos on rhel7 systems
+  action: copy src="{{ item }}" dest="/etc/yum.repos.d/{{ item }}"
+  with_items:
+    - epel7.repo
+    - rhel7.repo
+  when: ansible_distribution == 'RedHat' and ansible_distribution_major_version == '7'
+
+- name: put fedora repos on x86 systems
+  action: copy src="{{ item }}" dest="/etc/yum.repos.d/{{ item }}"
+  with_items:
+    - fedora.repo
+    - fedora-updates.repo
+    - fedora-updates-testing.repo
+  when: ansible_distribution == 'Fedora' and (ansible_architecture == 'x86_64' or ansible_architecture == 'i386')
+
+- name: put fedora repos on arm systems
+  action: copy src="{{ item }}-arm" dest="/etc/yum.repos.d/{{ item }}"
+  with_items:
+    - fedora.repo
+    - fedora-updates.repo
+    - fedora-updates-testing.repo
+  when: ansible_distribution == 'Fedora' and ansible_architecture == 'armv7l' and not inventory_hostname.startswith('arm03')
+
+- name: put centos repos on x86 systems
+  action: copy src="{{ item }}" dest="/etc/yum.repos.d/{{ item }}"
+  with_items:
+    - centos.repo
+    - centos-updates.repo
+    - centos-extras.repo
+    - centos-cr.repo
+  when: ansible_distribution == 'CentOS' and (ansible_architecture == 'x86_64' or ansible_architecture == 'i386')
+
+# the rhel repos can be used on centos
+- name: put beaker server repos on centos or rhel
+  action: copy src="{{ item }}" dest="/etc/yum.repos.d/{{ item }}"
+  with_items:
+    - beaker-server-rhel.repo
+  when: ansible_distribution == 'RedHat' or ansible_distribution == 'CentOS'
+
+- name: put beaker server repos on centos or rhel
+  action: copy src="{{ item }}" dest="/etc/yum.repos.d/{{ item }}"
+  with_items:
+    - beaker-server-fedora.repo
+  when: ansible_distribution == 'Fedora'
