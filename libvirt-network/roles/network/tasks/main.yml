@@ -34,3 +34,7 @@
     virsh net-start {{ item.item.name }}
   when: item.changed
   with_items: configure_result.results
+
+- name: add hostname mapping
+  lineinfile: dest=/etc/hosts line="{{ item.item.hosts[0].ip }} {{ item.item.hosts[0].name }}"
+  with_items: configure_result.results
