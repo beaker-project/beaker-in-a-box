@@ -1,5 +1,4 @@
 ---
-mysql_root_db_pass: "root"
 beaker_server_admin_user: "admin"
 beaker_server_admin_pass: "admin"
 beaker_server_email: "admin@example.com"

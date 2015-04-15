@@ -71,16 +71,18 @@ Vagrant.configure(2) do |config|
   # create beaker server and testing systems
   config.vm.define 'beaker-server-lc' do |server|
     server.vm.hostname = 'beaker-server-lc.beaker'
-    server.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
+    server.ssh.username = 'root'
+    server.ssh.password = 'vagrant'
+    server.vm.network "forwarded_port", guest: 80, host: 8080
     server.vm.network "private_network", libvirt__network_name: "beaker",
                       ip: "192.168.120.104", mac: "52:54:00:c6:73:4f"
     server.vm.provider :libvirt do |v|
+        v.driver = 'kvm'
         v.memory = 2048
         v.cpus = 2
     end
     server.vm.provision "ansible" do |ansible|
       ansible.playbook="beaker-setup/site.yml"
-      ansible.sudo = true
     end
   end
 

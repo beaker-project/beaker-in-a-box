@@ -1,6 +1,0 @@
-[extras]
-name=CentOS $releasever - $basearch - Extras
-baseurl=http://mirror.centos.org/centos/$releasever/cr/$basearch/
-enabled=1
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-$releasever
