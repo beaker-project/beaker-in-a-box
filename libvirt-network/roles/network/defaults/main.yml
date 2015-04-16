@@ -14,4 +14,3 @@ libvirt_bridges:
   dhcp_start: 192.168.120.2
   dhcp_end: 192.168.120.254
   bootp: { file: 'pxelinux.0', server: '192.168.120.104' }
-

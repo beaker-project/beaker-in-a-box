@@ -33,5 +33,5 @@
 
 - name: run add_test_systems script
   command: sh /usr/local/bin/add_test_systems.sh {{ beaker_server_admin_user }} {{ beaker_server_admin_pass }}
-  
+
 - include: distros.yml

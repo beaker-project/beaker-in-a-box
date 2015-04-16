@@ -69,11 +69,27 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get install -y apache2
   # SHELL
   # create beaker server and testing systems
+  test_systems = [
+    { :hostname => 'beaker-test-vm1', :ip => '192.168.120.105', :mac => '52:54:00:c6:71:8e' },
+    { :hostname => 'beaker-test-vm2', :ip => '192.168.120.106', :mac => '52:54:00:c6:71:8f' },  
+    { :hostname => 'beaker-test-vm3', :ip => '192.168.120.107', :mac => '52:54:00:c6:71:90' },
+  ]
+  test_systems.each do |system|
+    config.vm.define system[:hostname] do |machine|
+      machine.vm.host_name = system[:hostname]
+      machine.vm.network "private_network", libvirt__network_name: "beaker",
+                         ip: system[:name], mac: system[:mac], model_type: "virtio"
+      machine.vm.provider :libvirt do |v|
+        v.driver = 'kvm'
+        v.memory = 2048
+        v.graphics_port = '-1'
+      end
+    end
+  end
   config.vm.define 'beaker-server-lc' do |server|
     server.vm.hostname = 'beaker-server-lc.beaker'
     server.ssh.username = 'root'
     server.ssh.password = 'vagrant'
-    server.vm.network "forwarded_port", guest: 80, host: 8080
     server.vm.network "private_network", libvirt__network_name: "beaker",
                       ip: "192.168.120.104", mac: "52:54:00:c6:73:4f"
     server.vm.provider :libvirt do |v|
@@ -85,23 +101,5 @@ Vagrant.configure(2) do |config|
       ansible.playbook="beaker-setup/site.yml"
     end
   end
-
-#  config.vm.define 'test-vm1' do |machine|
-#    machine.vm.hostname = 'beaker-test-vm1'
-#    machine.vm.network "private_network", libvirt__network_name: "beaker",
-#                      ip: "192.168.120.105", mac: "52:54:00:c6:71:8e"
-#  end
-
-#  config.vm.define 'test-vm2' do |machine|
-#    machine.vm.hostname = 'beaker-test-vm2'
-#    machine.vm.network "private_network", libvirt__network_name: "beaker",
-#                      ip: "192.168.120.106", mac: "52:54:00:c6:71:8f"
-#  end
-
-#  config.vm.define 'test-vm2' do |machine|
-#    machine.vm.hostname = 'beaker-test-vm3'
-#    machine.vm.network "private_network", libvirt__network_name: "beaker",
-#                      ip: "192.168.120.107", mac: "52:54:00:c6:71:90"
-#  end
 
 end
