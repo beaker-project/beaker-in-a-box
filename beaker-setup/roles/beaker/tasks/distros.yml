@@ -1,0 +1,21 @@
+# Distros need to be imported into Beaker before we can provision them.
+---
+- name: import centos and F20 distors
+  command: beaker-import {{ item }}
+  with_items:
+    - http://mirror.centos.org/centos/5/os/x86_64/
+    - http://mirror.centos.org/centos/5/os/i386/
+    - http://mirror.centos.org/centos/6/os/x86_64/
+    - http://mirror.centos.org/centos/6/os/i386/
+    - http://mirror.centos.org/centos/7/os/x86_64/
+    - http://download.fedoraproject.org/pub/fedora/linux/releases/20/Fedora/x86_64/os
+    - http://download.fedoraproject.org/pub/fedora/linux/releases/20/Fedora/i386/os
+
+- name: import F21 distors
+  command: beaker-import --family=Fedora {{ item }}
+  with_items:
+    - http://download.fedoraproject.org/pub/fedora/linux/releases/21/Server/x86_64/os
+    - http://download.fedoraproject.org/pub/fedora/linux/releases/21/Server/i386/os
+
+- name: run beaker-repo-update
+  command: beaker-repo-update
