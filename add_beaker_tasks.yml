@@ -1,0 +1,18 @@
+# This playbook adds a few task RPMs to beaker server
+---
+- hosts: all
+  vars:
+    local_home: "{{ lookup('env','HOME') }}"
+    task_directory: "beaker-tasks"
+    beaker_user: "admin"
+    beaker_pass: "admin"
+  tasks:
+    - name: download task rpms
+      command: wget -r -np -nc -P "{{ local_home }}" https://beaker-project.org/tasks/
+
+    - name: add tasks to beaker server
+      command: bkr task-add --hub="http://beaker-server-lc.beaker/bkr"
+            --username={{ beaker_user }} --password={{ beaker_pass }} {{ item }}
+      with_fileglob:
+        - "{{ local_home }}/beaker-project.org/tasks/*.rpm"
+
