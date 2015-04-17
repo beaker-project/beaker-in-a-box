@@ -1,0 +1,7 @@
+#This playbook sets up the beaker server and lab controller
+---
+- hosts: all
+  remote_user: root
+  roles:
+    - beaker-setup
+

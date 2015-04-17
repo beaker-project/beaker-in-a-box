@@ -1,9 +1,0 @@
----
-# This playbook sets up the libvirt network which configures the dns, tftp and DHCP.
-# And it can be removed once this issue is resolved.
-# https://github.com/pradels/vagrant-libvirt/issues/332
-- hosts: all
-  sudo: true
-
-  roles:
-    - network

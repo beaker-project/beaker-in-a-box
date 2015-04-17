@@ -98,7 +98,7 @@ Vagrant.configure(2) do |config|
         v.cpus = 2
     end
     server.vm.provision "ansible" do |ansible|
-      ansible.playbook="beaker-setup/site.yml"
+      ansible.playbook="setup_beaker.yml"
     end
   end
 
