@@ -9,7 +9,7 @@
 - name: enable tftp
   command: chkconfig tftp on
 
-- name: start beaker demons
+- name: start beaker daemons
   service: name={{ item }} state=started enabled=yes
   with_items:
     - xinetd
