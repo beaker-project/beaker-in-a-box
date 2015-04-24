@@ -1,0 +1,20 @@
+# This playbook is setting up the boot order on the test VMs.
+- hosts: all
+  remote_user: root
+  vars:
+      test_vms: [beaker-test-vm1, beaker-test-vm2, beaker-test-vm3]
+  tasks:
+  - name: set up the boot order
+    command: virt-xml beaker-in-a-box_{{ item }} --edit --boot network,hd
+    with_items: test_vms
+
+  - name: shut down the VMs
+    virt: name=beaker-in-a-box_{{ item }} state=shutdown
+    with_items: test_vms
+
+  - name: waiting for the VMs shutdown
+    local_action: wait_for host={{ item }} port=22 state=stopped
+    with_items: test_vms
+  - name: start the VMs again
+    virt: name=beaker-in-a-box_{{ item }} state=running
+    with_items: test_vms
