@@ -3,6 +3,13 @@
   <name>{{ item.name | default('default', true) }}</name>
   <mac address='{{ item.mac }}' />
   <forward/>
+  <dns>
+{% for host in item.hosts %}
+    <host ip='{{ host.ip }}'>
+      <hostname>{{ host.name }}</hostname>
+    </host>
+{% endfor %}
+  </dns>
   <ip address='{{ item.ip_address }}' netmask='{{ item.ip_netmask }}'>
 {% if item.dhcp_start is defined %}
     <dhcp>
