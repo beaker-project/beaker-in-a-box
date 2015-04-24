@@ -11,7 +11,7 @@
       command: wget -r -np -nc -P "{{ local_home }}" https://beaker-project.org/tasks/
 
     - name: add tasks to beaker server
-      command: bkr task-add --hub="http://beaker-server-lc.beaker/bkr"
+      command: bkr task-add --hub="http://beaker-server-lc/bkr"
             --username={{ beaker_user }} --password={{ beaker_pass }} {{ item }}
       with_fileglob:
         - "{{ local_home }}/beaker-project.org/tasks/*.rpm"

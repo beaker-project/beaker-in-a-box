@@ -17,19 +17,21 @@ Vagrant.configure(2) do |config|
     { :hostname => 'beaker-test-vm3', :ip => '192.168.120.107', :mac => '52:54:00:c6:71:90' },
   ]
   test_systems.each do |system|
-    config.vm.define system[:hostname] do |machine|
+    config.vm.define system[:hostname], autostart: false do |machine|
       machine.vm.host_name = system[:hostname]
       machine.vm.network "private_network", libvirt__network_name: "beaker",
-                         ip: system[:name], mac: system[:mac], model_type: "virtio"
+                         ip: system[:ip], mac: system[:mac], model_type: "virtio"
       machine.vm.provider :libvirt do |v|
         v.driver = 'kvm'
+        v.cpus = 2
         v.memory = 2048
-        v.graphics_port = '-1'
+        v.management_network_name = 'beaker'
+        v.management_network_address = '192.168.120.0/24'
       end
     end
   end
   config.vm.define 'beaker-server-lc' do |server|
-    server.vm.hostname = 'beaker-server-lc.beaker'
+    server.vm.hostname = 'beaker-server-lc'
     server.ssh.username = 'root'
     server.ssh.password = 'vagrant'
     server.vm.network "private_network", libvirt__network_name: "beaker",
@@ -38,6 +40,8 @@ Vagrant.configure(2) do |config|
         v.driver = 'kvm'
         v.memory = 2048
         v.cpus = 2
+        v.management_network_name = 'beaker'
+        v.management_network_address = '192.168.120.0/24'
     end
     server.vm.provision "ansible" do |ansible|
       ansible.playbook="setup_beaker.yml"
