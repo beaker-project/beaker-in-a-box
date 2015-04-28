@@ -1,0 +1,12 @@
+<!-- {{ ansible_managed }} -->
+<volume>
+  <name>{{ item.name }}</name>
+  <source>
+  </source>
+  <capacity>{{ item.capacity }}</capacity>
+  <allocation>{{ item.allocation }}</allocation>
+  <target>
+    <path>/{{ libvirt_pool_name}}/{{ item.name }}</path>
+    <format type='raw'/>
+  </target>
+</volume>

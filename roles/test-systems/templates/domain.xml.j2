@@ -1,0 +1,30 @@
+<!-- {{ ansible_managed }} -->
+<domain type='kvm'>
+  <name>{{ item.name }}</name>
+  <memory unit='KiB'>2097152</memory>
+  <vcpu>{{ item.cpu }}</vcpu>
+  <os>
+    <type arch='x86_64'>hvm</type>
+    <boot dev='network'/>
+    <boot dev='hd'/>
+    <bootmenu enable='no'/>
+  </os>
+  <clock offset='utc'/>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>restart</on_reboot>
+  <on_crash>restart</on_crash>
+  <devices>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='raw'/>
+      <source file='/{{ libvirt_pool_name }}/{{ item.name }}.img'/>
+      <target dev='vda' bus='virtio'/>
+    </disk>
+    <interface type='network'>
+      <mac address='{{ item.mac }}' />
+      <source network='beaker'/>
+      <model type='virtio'/>
+    </interface>
+    <memballoon model='virtio'/>
+   <graphics type='vnc' port='-1' autoport='yes' keymap='en-us'/>
+  </devices>
+</domain>

@@ -5,8 +5,6 @@
 hostname=$(hostname -f)
 admin=$1
 password=$2
-# https://github.com/pradels/vagrant-libvirt/issues/339
-# we can configure the vitual machine name once the above issue is resolved.
 systems="
     beaker-test-vm1;
     beaker-test-vm2;
@@ -26,9 +24,9 @@ for system in $systems; do
    echo "power,$name,qemu+ssh:192.168.120.1,$name,virsh" >>$tmpdir/02-power.csv
 done
 # Log in to Beaker and upload the CSV files we created.
-curl -c $tmpdir/tmpcookie -d user_name=$admin -d password=$password -d login=1 http://localhost/bkr/login || exit 1
+curl -c $tmpdir/tmpcookie -d user_name=$admin -d password=$password -d login=1 http://beaker-server-lc/bkr/login || exit 1
 for csv in $tmpdir/*.csv; do
-    curl -b $tmpdir/tmpcookie --form csv_file=@$csv http://localhost/bkr/csv/action_import
+    curl -b $tmpdir/tmpcookie --form csv_file=@$csv http://beaker-server-lc/bkr/csv/action_import
 done
 #rm -rf $tmpdir
 trap - INT TERM EXIT

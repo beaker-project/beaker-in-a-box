@@ -1,0 +1,61 @@
+---
+- name: create storage directory
+  file:
+    path: "{{ libvirt_storage_path }}"
+    state: directory
+
+- name: create pool config
+  template:
+    src: pool.xml.j2
+    dest: "{{ libvirt_storage_path }}/pool.xml"
+  register: configure_pool_result
+
+- name: create pool directory
+  file:
+    path: "/{{ libvirt_pool_name }}"
+    state: directory
+
+- name: check pool if it exists
+  command: virsh pool-info {{ libvirt_pool_name }}
+  failed_when: no
+  changed_when: no
+  register: check_pool_result
+  
+- name: stop and undefine existing pool
+  shell: >
+    virsh pool-destroy {{ libvirt_pool_name }};
+    virsh pool-undefine {{ libvirt_pool_name }}
+  when: check_pool_result.rc == 0 and configure_pool_result.changed
+
+- name: define and start pool
+  shell: >
+    virsh pool-define {{ libvirt_storage_path }}/pool.xml &&
+    virsh pool-autostart {{ libvirt_pool_name }} &&
+    virsh pool-start {{ libvirt_pool_name }}
+  when: configure_pool_result.changed or check_pool_result.rc == 1 
+
+- name: create volume config
+  template:
+    src: volume.xml.j2
+    dest: "{{ libvirt_storage_path }}/{{ item.name }}.xml"
+  with_items: libvirt_volumes
+  register: configure_vol_result
+
+- name: check volume states
+  command: virsh vol-info {{ item.item.name }} --pool {{ libvirt_pool_name }}
+  failed_when: no
+  changed_when: no
+  register: check_vol_states_result
+  with_items: configure_vol_result.results
+
+- name: delete existing volume
+  command: virsh vol-delete {{ item[0].item.name }} --pool {{ libvirt_pool_name }}
+  when: item[1].rc == 0 and item[0].changed
+  with_together:
+  - configure_vol_result.results
+  - check_vol_states_result.results
+
+- name: create volume
+  command: virsh vol-create {{ libvirt_pool_name }} --file /{{ libvirt_storage_path }}/{{ item.item.name }}.xml
+  when: item.changed
+  with_items: configure_vol_result.results

@@ -1,0 +1,35 @@
+---
+- include: setup_storage.yml
+- name: create directory
+  file:
+    path: "{{ libvirt_domain_path }}"
+    state: directory
+
+- name: create domain config
+  template:
+    src: domain.xml.j2
+    dest: "{{ libvirt_domain_path }}/{{ item.name }}.xml"
+  with_items: libvirt_domains
+  register: configure_domain_result
+
+- name: check domain state
+  command: virsh dumpxml {{ item.item.name }}
+  failed_when: no
+  changed_when: no
+  register: check_domain_state_result
+  with_items: configure_domain_result.results
+
+- name: stop and undefine existing domain
+  shell: >
+    virsh destroy {{ item[0].item.name }};
+    virsh undefine {{ item[0].item.name }}
+  when: (item[1].rc == 0) and (item[0].changed)
+  with_together:
+  - configure_domain_result.results
+  - check_domain_state_result.results
+
+- name: define domain
+  command: virsh define --file '{{ libvirt_domain_path }}/{{ item.item.name }}.xml'
+  when: item.changed
+  with_items: configure_domain_result.results
+ 
