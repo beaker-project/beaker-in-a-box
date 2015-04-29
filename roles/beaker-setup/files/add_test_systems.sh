@@ -8,9 +8,9 @@ password=$2
 # https://github.com/pradels/vagrant-libvirt/issues/339
 # we can configure the vitual machine name once the above issue is resolved.
 systems="
-    beaker-test-vm1;
-    beaker-test-vm2;
-    beaker-test-vm3;
+    beaker-test-vm1.beaker;
+    beaker-test-vm2.beaker;
+    beaker-test-vm3.beaker;
 "
 tmpdir=$(mktemp -d)
 trap "rm -rf $tmpdir; exit" INT TERM EXIT

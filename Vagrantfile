@@ -11,7 +11,7 @@ Vagrant.configure(2) do |config|
   config.vm.box_url = "https://download.gluster.org/pub/gluster/purpleidea/vagrant/centos-6/centos-6.box"
 
   config.vm.define 'beaker-server-lc' do |server|
-    server.vm.hostname = 'beaker-server-lc'
+    server.vm.hostname = 'beaker-server-lc.beaker'
     server.ssh.username = 'root'
     server.ssh.password = 'vagrant'
     server.vm.network "private_network", libvirt__network_name: "beaker",

@@ -5,10 +5,10 @@ libvirt_bridges:
   forward: nat
   mac: '52:54:00:6B:11:87'
   hosts:
-    - {mac: '52:54:00:c6:73:4f', name: 'beaker-server-lc', ip: '192.168.120.104'}
-    - {mac: '52:54:00:c6:71:8e', name: 'beaker-test-vm1', ip: '192.168.120.105'}
-    - {mac: '52:54:00:c6:71:8f', name: 'beaker-test-vm2', ip: '192.168.120.106'}
-    - {mac: '52:54:00:c6:71:90', name: 'beaker-test-vm3', ip: '192.168.120.107'}
+    - {mac: '52:54:00:c6:73:4f', name: 'beaker-server-lc.beaker', ip: '192.168.120.104'}
+    - {mac: '52:54:00:c6:71:8e', name: 'beaker-test-vm1.beaker', ip: '192.168.120.105'}
+    - {mac: '52:54:00:c6:71:8f', name: 'beaker-test-vm2.beaker', ip: '192.168.120.106'}
+    - {mac: '52:54:00:c6:71:90', name: 'beaker-test-vm3.beaker', ip: '192.168.120.107'}
   ip_address: 192.168.120.1
   ip_netmask: 255.255.255.0
   dhcp_start: 192.168.120.2
@@ -17,17 +17,17 @@ libvirt_bridges:
 libvirt_storage_path: '/etc/libvirt/ansible/storage'
 libvirt_pool_name: 'beaker_images'
 libvirt_volumes:
-- name: beaker-test-vm1.img
+- name: beaker-test-vm1.beaker.img
   capacity: 10737418240
   allocation: 10737418240
-- name: beaker-test-vm2.img
+- name: beaker-test-vm2.beaker.img
   capacity: 10737418240
   allocation: 10737418240
-- name: beaker-test-vm3.img
+- name: beaker-test-vm3.beaker.img
   capacity: 10737418240
   allocation: 10737418240
 libvirt_domain_path: '/etc/libvirt/ansible/domains'
 libvirt_domains:
-    - {name: 'beaker-test-vm1', ip: '192.168.120.105', mac: '52:54:00:c6:71:8e', cpu: 1}
-    - {name: 'beaker-test-vm2', ip: '192.168.120.106', mac: '52:54:00:c6:71:8f', cpu: 1}
-    - {name: 'beaker-test-vm3', ip: '192.168.120.107', mac: '52:54:00:c6:71:90', cpu: 1}
+    - {name: 'beaker-test-vm1.beaker', ip: '192.168.120.105', mac: '52:54:00:c6:71:8e', cpu: 1}
+    - {name: 'beaker-test-vm2.beaker', ip: '192.168.120.106', mac: '52:54:00:c6:71:8f', cpu: 1}
+    - {name: 'beaker-test-vm3.beaker', ip: '192.168.120.107', mac: '52:54:00:c6:71:90', cpu: 1}
