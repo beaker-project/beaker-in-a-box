@@ -2,7 +2,7 @@
 # And three test VMs.
 ---
 - hosts: all
-  remote_user: root
+  sudo: true
 
   roles:
     - libvirt-network
