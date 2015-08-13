@@ -1,6 +1,6 @@
 ---
 - include: setup_storage.yml
-- name: create directory
+- name: create domain directory
   file:
     path: "{{ libvirt_domain_path }}"
     state: directory

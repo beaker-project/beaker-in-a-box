@@ -18,7 +18,7 @@ libvirt_bridges:
   dhcp_end: 192.168.120.254
   bootp: { file: 'pxelinux.0', server: '192.168.120.104' }
 libvirt_storage_path: '/etc/libvirt/ansible/storage'
-libvirt_pool_name: 'beaker_images'
+libvirt_path: '/var/lib/libvirt'
 libvirt_volumes:
 - name: beaker-test-vm1.beaker.img
   capacity: 10737418240

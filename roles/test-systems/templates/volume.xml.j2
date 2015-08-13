@@ -6,7 +6,7 @@
   <capacity>{{ item.capacity }}</capacity>
   <allocation>{{ item.allocation }}</allocation>
   <target>
-    <path>/{{ libvirt_pool_name}}/{{ item.name }}</path>
+    <path>/{{ libvirt_path}}/images/{{ item.name }}</path>
     <format type='raw'/>
   </target>
 </volume>
