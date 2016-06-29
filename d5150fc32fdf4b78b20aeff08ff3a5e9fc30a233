@@ -1,0 +1,8 @@
+Ready-for-Checks+1: Blake McIvor <bmcivor@redhat.com>
+Code-Review+2: Dan Callaghan <dcallagh@redhat.com>
+Verified+1: Blake McIvor <bmcivor@redhat.com>
+Submitted-by: Blake McIvor <bmcivor@redhat.com>
+Submitted-at: Wed, 29 Jun 2016 05:38:04 +0000
+Reviewed-on: http://gerrit.beaker-project.org/5015
+Project: beaker-in-a-box
+Branch: refs/heads/master
