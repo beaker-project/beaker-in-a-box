@@ -1,4 +1,3 @@
-<!-- {{ ansible_managed }} -->
 <network>
   <name>{{ item.name | default('default', true) }}</name>
   <mac address='{{ item.mac }}' />

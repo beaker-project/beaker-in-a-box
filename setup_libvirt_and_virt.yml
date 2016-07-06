@@ -5,5 +5,5 @@
   sudo: true
 
   roles:
-    - libvirt-network
-    - test-systems
+    - { role: libvirt-network, tags: [network] }
+    - { role: test-systems, tags: [systems] }
