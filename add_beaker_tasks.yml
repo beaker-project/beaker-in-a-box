@@ -1,7 +1,6 @@
 # This playbook adds a few task RPMs to beaker server
 ---
-- hosts: all
-  sudo: true
+- hosts: localhost
   tasks:
     - name: create temporary directory
       shell: mktemp -d
