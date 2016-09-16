@@ -13,11 +13,11 @@
   when: ansible_distribution == "Fedora"
 
 - name: install mysql-server package
-  yum: name=mysql-server state=present
+  package: name=mysql-server state=present
   when: is_mysql_server
 
 - name: install mariadb-server package
-  yum: name=mariadb-server state=present
+  package: name=mariadb-server state=present
   when: not is_mysql_server
 
 - name: copy mysql config

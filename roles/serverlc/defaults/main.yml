@@ -1,0 +1,5 @@
+---
+beaker:
+  packages:
+    - beaker-server
+    - beaker-lab-controller

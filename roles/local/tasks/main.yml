@@ -1,0 +1,8 @@
+---
+- name: ensure local packages are installed for the playbook
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - libselinux-python
+    - python-lxml

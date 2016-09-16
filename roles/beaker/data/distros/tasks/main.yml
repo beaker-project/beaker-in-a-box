@@ -1,5 +1,9 @@
 # Distros need to be imported into Beaker before we can provision them.
 ---
+- name: import user defined distros
+  command: beaker-import {{ item }}
+  with_items: "{{ user_distros }}"
+
 - name: import centos
   command: beaker-import {{ item }}
   with_items:
@@ -8,7 +12,6 @@
     - http://mirror.centos.org/centos/6/os/x86_64/
     - http://mirror.centos.org/centos/6/os/i386/
     - http://mirror.centos.org/centos/7/os/x86_64/
-
 
 - name: import current Fedora releases
   command: beaker-import --family=Fedora {{ item }}

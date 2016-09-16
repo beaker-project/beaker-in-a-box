@@ -1,0 +1,12 @@
+---
+libvirt_path: '/var/lib/libvirt'
+libvirt_volumes:
+- name: beaker-test-vm1.beaker.img
+  capacity: 10737418240
+  allocation: 10737418240
+- name: beaker-test-vm2.beaker.img
+  capacity: 10737418240
+  allocation: 10737418240
+- name: beaker-test-vm3.beaker.img
+  capacity: 10737418240
+  allocation: 10737418240

@@ -1,0 +1,6 @@
+---
+- name: transfer the add_test_systems script
+  copy: src=add_test_systems.sh dest=/usr/local/bin/add_test_systems.sh owner=root group=root mode=0755 backup=no
+
+- name: run add_test_systems script
+  command: sh /usr/local/bin/add_test_systems.sh {{ beaker_server_admin_user }} {{ beaker_server_admin_pass }}

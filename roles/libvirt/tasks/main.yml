@@ -1,0 +1,19 @@
+---
+- name: ensure libvirt is installed
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - libvirt-daemon-kvm
+    - virt-manager
+
+- name: define and start beaker networks
+  virt_net:
+    command: define
+    name: "{{ network.name }}"
+    xml: "{{ lookup('template', 'config.xml.j2') }}"
+
+- name: activate beaker networks
+  virt_net:
+    state: active
+    name: "{{ network.name }}"

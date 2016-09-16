@@ -1,7 +1,41 @@
 #This playbook sets up the beaker server and lab controller
 ---
-- hosts: all
+# https://fedoramagazine.org/getting-ansible-working-fedora-23/
+- hosts: localhost
+  become_user: root
+  become: yes
+  gather_facts: false
+  tasks:
+    - name: ensure python and deps for ansible modules are installed
+      raw: dnf install -y python2 python2-dnf libselinux-python
+
+- hosts: localhost
+  sudo: true
+
+  vars:
+    user_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    netinstall_url: http://mirror.centos.org/centos/6/os/x86_64
+    kickstart_repos:
+      install: http://mirror.centos.org/centos/6/os/x86_64/
+      updates: http://mirror.centos.org/centos/6/updates/x86_64/
+      extras: http://mirror.centos.org/centos/6/extras/x86_64/
+      cr: http://mirror.centos.org/centos/6/cr/x86_64/
+    user_distros: []
+
+  roles:
+    - { role: local, tags: [local] }
+    - { role: libvirt, tags: [network] }
+    - { role: serverlc, tags: [serverlc] }
+    - { role: test-systems, tags: [systems] }
+
+- hosts: serverlc
   remote_user: root
   roles:
-    - beaker-setup
-
+    - { role: beaker/common, tags: [serverlc, common] }
+    - { role: beaker/setup/repos, tags: [serverlc, repos] }
+    - { role: beaker/setup/database, tags: [serverlc, database] }
+    - { role: beaker/setup/services, tags: [serverlc, services] }
+    - { role: beaker/data/labcontroller, tags: [serverlc, labcontroller, data] }
+    - { role: beaker/data/testsystems, tags: [serverlc, systems, data] }
+    - { role: beaker/data/distros, tags: [serverlc, distros, data] }
+    - { role: beaker/data/beakertasks, tags: [serverlc, tasks, data] }

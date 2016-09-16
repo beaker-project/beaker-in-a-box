@@ -1,0 +1,23 @@
+<network>
+  <name>{{ network.name | default('default', true) }}</name>
+  <mac address='{{ network.mac }}' />
+  <forward/>
+  <dns>
+{% for host in network.hosts %}
+    <host ip='{{ host.ip }}'>
+      <hostname>{{ host.name }}</hostname>
+    </host>
+{% endfor %}
+  </dns>
+  <ip address='{{ network.ip_address }}' netmask='{{ network.ip_netmask }}'>
+{% if network.dhcp_start is defined %}
+    <dhcp>
+      <range start='{{ network.dhcp_start }}' end='{{ network.dhcp_end }}' />
+{% for host in network.hosts %}
+      <host mac='{{ host.mac }}' name='{{ host.name }}' ip='{{ host.ip }}' />
+{% endfor %}
+      <bootp file='{{ network.bootp.file }}' server='{{ network.bootp.server }}' />
+    </dhcp>
+{% endif %}
+  </ip>
+</network>

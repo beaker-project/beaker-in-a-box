@@ -1,2 +1,5 @@
-[beaker]
+[localhost]
 localhost ansible_connection=local
+
+[serverlc]
+beaker-server-lc.beaker

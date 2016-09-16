@@ -1,9 +1,18 @@
 ---
+- name: check storage volumes
+  command: "virsh vol-list default"
+  register: default_volumes
+
+- name: show storage volumes
+  debug:
+    var: default_volumes
+
 - name: create storage volumes
   command: "virsh vol-create-as default {{ item.name }} {{ item.capacity }} --allocation {{ item.allocation }}"
-  failed_when: "'exists already' not in configure_result.stderr"
+  failed_when: "'exists already' in configure_result.stderr"
   with_items: "{{ libvirt_volumes }}"
   register: configure_result
+  when: "item.name not in default_volumes.stdout"
 
 - name: Define test systems
   virt:

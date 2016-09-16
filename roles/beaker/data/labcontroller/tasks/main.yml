@@ -1,18 +1,9 @@
-# Todo: it would be good to move this task to a role.
 ---
 - name: transfer the script
   copy: src=add_new_lc.sh dest=/usr/local/bin/add_new_lc.sh owner=root group=root mode=0755 backup=no
 
 - name: add ourselves as a lab controller
   command: sh /usr/local/bin/add_new_lc.sh {{ beaker_server_admin_user }} {{ beaker_server_admin_pass }}
+  notify: restart beaker services
 
-- name: enable tftp
-  command: chkconfig tftp on
-
-- name: start beaker daemons
-  service: name={{ item }} state=started enabled=yes
-  with_items:
-    - xinetd
-    - beaker-proxy
-    - beaker-provision
-    - beaker-watchdog
+- meta: flush_handlers

@@ -1,0 +1,55 @@
+---
+- name: ensure virt-install is installed
+  package:
+    name: virt-install
+    state: present
+
+- name: prepare kickstart
+  local_action: template src=beaker.ks.j2 dest=/tmp/beaker.ks
+
+- name: query libvirt machines
+  virt:
+    command: list_vms
+  register: existing_virt_machines
+
+- name: currently defined machines
+  debug:
+    var: existing_virt_machines
+
+- name: provision server/lab controller
+  command: virt-install
+           -n {{ network.hosts[0].name }}
+           --location {{ netinstall_url }}
+           --memory 2048
+           --vcpus 2
+           --initrd-inject /tmp/beaker.ks
+           --extra-args "ks=file:/beaker.ks ip=dhcp"
+           --os-type Linux
+           --os-variant rhel6
+           --network network={{ network.name }},mac={{ network.hosts[0].mac }}
+           --graphics vnc
+           --hvm
+           --virt-type kvm
+           --disk size=20
+           --check all=on
+  when: network.hosts[0].name not in existing_virt_machines.list_vms
+
+- name: add hostname mapping
+  lineinfile: dest=/etc/hosts line="{{ network.hosts[0].ip }} {{ network.hosts[0].name }}"
+
+- name: wait for server to reboot
+  sudo: no
+  local_action: wait_for host={{ network.hosts[0].name }} port=22
+
+# Add the hostname and the ip to the known hosts. The IP can get added if the
+# user logs in via ssh. If we don't keep it in sync, the next time the user
+# might run the playbook it'll stumble over different host keys for the same
+# host and abort
+- name: ensure new server/lab controller host key is present locally
+  sudo: no
+  known_hosts:
+    key: "{{ lookup('pipe', 'ssh-keyscan -T 10 ' ~ item) }}"
+    name: "{{ item }}"
+  with_items:
+    - "{{ network.hosts[0].name }}"
+    - "{{ network.hosts[0].ip }}"

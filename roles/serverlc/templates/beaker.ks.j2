@@ -1,0 +1,77 @@
+# Beaker is developed and tested on Red Hat Enterprise Linux 6, but any
+# compatible distro should work as well.
+url --url={{ netinstall_url }}
+{% for name, url in kickstart_repos.items() %}
+repo --name={{ name }} --baseurl={{ url }}
+{% endfor %}
+repo --name=beaker-server --baseurl=http://beaker-project.org/yum/server/RedHatEnterpriseLinux6/
+
+# The usual installation stuff. Beaker has no particular requirements here.
+auth --useshadow --enablemd5
+firewall --disable
+firstboot --disable
+clearpart --all --initlabel
+part / --fstype=ext4 --size=2000 --grow
+part /boot --fstype=ext4 --size=500
+part swap --recommended
+bootloader --location=mbr
+text
+keyboard us
+lang en_US.UTF-8
+timezone America/New_York
+install
+zerombr
+reboot
+
+# The root password is `beaker`. You may want to change this.
+rootpw --iscrypted $1$mF86/UHC$0siTuCcbOzXX5nOSdcsPG.
+
+# For now, the Beaker server does not support running with SELinux enabled.
+# Patches welcome.
+selinux --disabled
+
+# These are the basic requirements for running a Beaker server and lab.
+%packages
+{% for p in beaker.packages %}
+{{ p }}
+{% endfor %}
+mysql-server
+MySQL-python
+autofs
+mod_ssl
+tftp-server
+%end
+
+%post
+set -x -v
+exec 1>/root/ks-post.log 2>&1
+
+# Turn on some services which are needed.
+chkconfig mysqld on
+chkconfig httpd on
+chkconfig xinetd on
+chkconfig tftp on
+
+cat <<EOF >>/etc/motd
+Welcome to Beaker!
+EOF
+
+# set repositories
+{% for name, url in kickstart_repos.items() %}
+cat <<EOF > /etc/yum.repos.d/{{ name }}.repo
+[{{ name }}]
+name = {{ name }}
+baseurl = {{ url }}
+enabled = 1
+gpgcheck = 0
+EOF
+
+{% endfor %}
+
+# Set SSH key
+mkdir -p /root/.ssh
+cat >> /root/.ssh/authorized_keys <<"__EOF__"
+{{ user_key }}
+__EOF__
+
+%end

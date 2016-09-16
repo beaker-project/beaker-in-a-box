@@ -1,0 +1,26 @@
+---
+- name: install basic packages
+  package: name={{ item }} state=present
+  with_items:
+    - beaker-server
+    - beaker-lab-controller
+    - autofs
+    - MySQL-python
+    - tftp-server
+    - mod_ssl
+    - libvirt-client
+    - wget
+
+- name: start the Apache server and the Beaker daemon
+  service: name={{ item }} state=started enabled=yes
+  with_items:
+    - httpd
+    - beakerd
+
+- name: enable beaker services
+  service: name={{ item }} enabled=yes
+  with_items:
+    - xinetd
+    - beaker-proxy
+    - beaker-provision
+    - beaker-watchdog
