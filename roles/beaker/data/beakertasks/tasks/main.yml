@@ -27,10 +27,9 @@
            --hub="http://localhost/bkr"
            --username={{ beaker_server_admin_user }}
            --password={{ beaker_server_admin_pass }} {{ item }}
-  with_items: rpms.stdout_lines
-  failed_when: no
-  changed_when: no
-  when: tempdir.rc == 0
+  with_items: "{{ rpms.stdout_lines }}"
+  register: import_result
+  failed_when: "'Exception' in import_result.stderr and 'duplicate' not in import_result.stderr"
 
 - name: remove temporary directory
   file: path={{ tempdir.stdout }} state=absent
