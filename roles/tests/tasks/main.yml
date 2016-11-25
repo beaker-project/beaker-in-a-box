@@ -1,0 +1,6 @@
+---
+- name: check if HTTP server is alive
+  uri:
+    url: "http://{{ network.hosts[0].name }}/bkr"
+    method: GET
+    status_code: 200

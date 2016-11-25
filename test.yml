@@ -1,0 +1,7 @@
+---
+- include: setup_beaker.yml
+
+- hosts: localhost
+
+  roles:
+    - { role: tests, tags: tests }
