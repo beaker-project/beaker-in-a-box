@@ -17,6 +17,7 @@ part swap --recommended
 bootloader --location=mbr
 text
 keyboard us
+network --hostname={{ network.hosts[0].name }}
 lang en_US.UTF-8
 timezone America/New_York
 install
