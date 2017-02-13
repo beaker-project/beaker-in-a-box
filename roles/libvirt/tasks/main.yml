@@ -6,6 +6,16 @@
   with_items:
     - libvirt-daemon-kvm
     - virt-manager
+    - libvirt-client
+
+- name: ensure libvirt and virtlogd are enabled/started
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  with_items:
+    - libvirtd
+    - virtlogd
 
 - name: define and start beaker networks
   virt_net:
