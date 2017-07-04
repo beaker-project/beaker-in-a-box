@@ -7,8 +7,6 @@
 - name: import centos
   command: beaker-import {{ item }}
   with_items:
-    - http://mirror.centos.org/centos/5/os/x86_64/
-    - http://mirror.centos.org/centos/5/os/i386/
     - http://mirror.centos.org/centos/6/os/x86_64/
     - http://mirror.centos.org/centos/6/os/i386/
     - http://mirror.centos.org/centos/7/os/x86_64/
