@@ -1,0 +1,9 @@
+Ready-for-Checks+1: Anwesha Chatterjee <achatter@redhat.com>
+Code-Review+1: Matt Jia <mjia@redhat.com>
+Code-Review+2: Dan Callaghan <dcallagh@redhat.com>
+Verified+1: Anwesha Chatterjee <achatter@redhat.com>
+Submitted-by: Anwesha Chatterjee <achatter@redhat.com>
+Submitted-at: Wed, 12 Jul 2017 02:00:12 +0000
+Reviewed-on: https://gerrit.beaker-project.org/5728
+Project: beaker-in-a-box
+Branch: refs/heads/master
