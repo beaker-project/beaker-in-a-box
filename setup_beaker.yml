@@ -10,7 +10,7 @@
       raw: dnf install -y python2 python2-dnf libselinux-python
 
 - hosts: localhost
-  sudo: true
+  become: true
 
   vars:
     user_key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"

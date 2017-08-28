@@ -38,7 +38,7 @@
   lineinfile: dest=/etc/hosts line="{{ network.hosts[0].ip }} {{ network.hosts[0].name }}"
 
 - name: wait for server to reboot
-  sudo: no
+  become: false
   local_action: wait_for host={{ network.hosts[0].name }} port=22
 
 # Add the hostname and the ip to the known hosts. The IP can get added if the
@@ -46,7 +46,7 @@
 # might run the playbook it'll stumble over different host keys for the same
 # host and abort
 - name: ensure new server/lab controller host key is present locally
-  sudo: no
+  become: false
   known_hosts:
     key: "{{ lookup('pipe', 'ssh-keyscan -T 10 ' ~ item) }}"
     name: "{{ item }}"

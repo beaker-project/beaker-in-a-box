@@ -21,11 +21,11 @@
   register: root_ssh_pub_key
 
 - name: accept root@labcontroller ssh key locally
-  sudo: yes
+  become: true
   local_action: authorized_key user=root key={{ root_ssh_pub_key.stdout }}
 
 - name: ensure sshd runs locally to read local ssh hostkeys
-  sudo: yes
+  become: true
   local_action: service name=sshd enabled=yes state=started
 
 - name: read local ssh hostkey
