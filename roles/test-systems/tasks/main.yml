@@ -1,18 +1,18 @@
 ---
 - name: check storage volumes
-  command: "virsh vol-list default"
-  register: default_volumes
+  virt_pool:
+    command: facts
 
 - name: show storage volumes
   debug:
-    var: default_volumes
+    var: ansible_libvirt_pools
 
 - name: create storage volumes
-  command: "virsh vol-create-as default {{ item.name }} {{ item.capacity }} --allocation {{ item.allocation }}"
+  command: "virsh vol-create-as {{ storage_pool_name }} {{ item.name }} {{ item.capacity }} --allocation {{ item.allocation }}"
   failed_when: "configure_result.rc != 0 or 'exists already' in configure_result.stderr"
   with_items: "{{ libvirt_volumes }}"
   register: configure_result
-  when: "item.name not in default_volumes.stdout"
+  when: "item.name not in ansible_libvirt_pools[storage_pool_name].volumes"
 
 - name: Define test systems
   virt:

@@ -27,3 +27,29 @@
   virt_net:
     state: active
     name: "{{ network.name }}"
+
+- name: gather facts about storage pools
+  virt_pool:
+    command: facts
+
+- name: "build storage pool '{{ storage_pool_name }}' if it doesn't exist"
+  virt_pool:
+    command: define
+    name: "{{ storage_pool_name }}"
+    xml: '{{ lookup("template", "pool.xml.j2") }}'
+  when: storage_pool_name not in ansible_libvirt_pools.keys()
+
+- name: ensure user provided storage pool is active
+  virt_pool:
+    state: active
+    name: "{{ storage_pool_name }}"
+    autostart: yes
+
+- name: gather facts about storage pools
+  virt_pool:
+    command: facts
+
+- debug:
+    msg: "The storage pool '{{ storage_pool_name }}' in '{{ storage_pool_path }} needs more than >= 40G of total space. Delete the pool and rerun using a different path providing more disk space."
+  failed_when: ansible_libvirt_pools[storage_pool_name].size_total is version_compare(storage_pool_capacity, '<')
+

@@ -33,7 +33,7 @@
            --graphics vnc
            --hvm
            --virt-type kvm
-           --disk size=20
+           --disk "size=20,pool={{storage_pool_name}}"
            --check all=on
            --noreboot
   when: network.hosts[0].name not in existing_virt_machines.list_vms

@@ -15,7 +15,7 @@
   <devices>
     <disk type='file' device='disk'>
       <driver name='qemu' type='raw'/>
-      <source file='/{{ libvirt_path }}/images/{{ item.name }}.img'/>
+      <source file='/{{ ansible_libvirt_pools[storage_pool_name].path }}/{{ item.name }}.img'/>
       <target dev='vda' bus='virtio'/>
     </disk>
     <interface type='network'>

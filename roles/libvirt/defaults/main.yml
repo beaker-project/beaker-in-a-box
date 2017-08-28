@@ -1,0 +1,5 @@
+---
+storage_pool_name: default
+storage_pool_path: /var/lib/libvirt/images
+storage_pool_capacity: 55037418240
+storage_pool_allocation: 55037418240
