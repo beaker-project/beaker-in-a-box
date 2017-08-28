@@ -1,14 +1,5 @@
 #This playbook sets up the beaker server and lab controller
 ---
-# https://fedoramagazine.org/getting-ansible-working-fedora-23/
-- hosts: localhost
-  become_user: root
-  become: yes
-  gather_facts: false
-  tasks:
-    - name: ensure python and deps for ansible modules are installed
-      raw: dnf install -y python2 python2-dnf libselinux-python
-
 - hosts: localhost
   become: true
 
