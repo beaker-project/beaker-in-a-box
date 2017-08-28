@@ -1,4 +1,4 @@
-[localhost]
+[localsys]
 localhost ansible_connection=local
 
 [serverlc]
