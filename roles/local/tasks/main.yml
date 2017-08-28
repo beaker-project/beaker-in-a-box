@@ -1,4 +1,13 @@
 ---
+- name: check ssh key existance
+  stat:
+    path: "{{ user_key_path }}"
+    get_checksum: False
+    get_md5: False
+    get_mime: False
+  register: user_key_info
+  failed_when: user_key_info.stat.exists == False
+
 - name: ensure local packages are installed for the playbook
   package:
     name: "{{ item }}"
