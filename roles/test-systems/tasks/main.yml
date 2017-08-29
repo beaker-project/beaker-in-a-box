@@ -9,7 +9,7 @@
 
 - name: create storage volumes
   command: "virsh vol-create-as default {{ item.name }} {{ item.capacity }} --allocation {{ item.allocation }}"
-  failed_when: "'exists already' in configure_result.stderr"
+  failed_when: "configure_result.rc != 0 or 'exists already' in configure_result.stderr"
   with_items: "{{ libvirt_volumes }}"
   register: configure_result
   when: "item.name not in default_volumes.stdout"
