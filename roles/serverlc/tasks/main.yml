@@ -1,8 +1,11 @@
 ---
-- name: ensure virt-install is installed
+- name: ensure virt-install related packages are installed
   package:
-    name: virt-install
+    name: "{{ item }}"
     state: present
+  with_items:
+  - virt-install
+  - virt-viewer
 
 - name: prepare kickstart
   local_action: template src=beaker.ks.j2 dest=/tmp/beaker.ks
