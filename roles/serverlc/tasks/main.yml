@@ -35,12 +35,18 @@
            --virt-type kvm
            --disk size=20
            --check all=on
+           --noreboot
   when: network.hosts[0].name not in existing_virt_machines.list_vms
 
 - name: add hostname mapping
   lineinfile: dest=/etc/hosts line="{{ network.hosts[0].ip }} {{ network.hosts[0].name }}"
 
-- name: wait for server to reboot
+- name: start server/lab controller after installation
+  virt:
+    name: "{{ network.hosts[0].name }}"
+    state: running
+
+- name: wait for server/lab controller to start
   become: false
   local_action: wait_for host={{ network.hosts[0].name }} port=22
 
