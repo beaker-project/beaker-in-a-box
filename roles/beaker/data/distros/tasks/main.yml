@@ -14,11 +14,9 @@
 - name: import current Fedora releases
   command: beaker-import --family=Fedora {{ item }}
   with_items:
-    - http://download.fedoraproject.org/pub/fedora/linux/releases/22/Server/x86_64/os
-    - http://download.fedoraproject.org/pub/fedora/linux/releases/22/Server/i386/os
-    - http://download.fedoraproject.org/pub/fedora/linux/releases/23/Server/x86_64/os
-    - http://download.fedoraproject.org/pub/fedora/linux/releases/23/Server/i386/os
-    - http://download.fedoraproject.org/pub/fedora/linux/releases/24/Server/x86_64/os
+    - http://download.fedoraproject.org/pub/fedora/linux/releases/25/Server/x86_64/os/
+    - http://download.fedoraproject.org/pub/fedora/linux/releases/25/Server/i386/os/
+    - http://download.fedoraproject.org/pub/fedora/linux/releases/26/Server/x86_64/os/
 
 - name: run beaker-repo-update
   command: beaker-repo-update
