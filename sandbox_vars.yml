@@ -1,0 +1,31 @@
+network:
+  name: sandbox
+  forward: nat
+  mac: '52:54:00:6B:10:87'
+  hosts:
+    - {mac: '52:54:00:6B:73:4f', name: 'beaker-server.sandbox', ip: '192.168.130.104'}
+    - {mac: '52:54:00:6B:71:8e', name: 'beaker-test-vm1.sandbox', ip: '192.168.130.105'}
+  ip_address: 192.168.130.1
+  ip_netmask: 255.255.255.0
+  dhcp_start: 192.168.130.2
+  dhcp_end: 192.168.130.254
+  bootp: { file: 'pxelinux.0', server: '192.168.130.104' }
+libvirt_domains:
+    - {name: 'beaker-test-vm1.sandbox', ip: '192.168.130.105', mac: '52:54:00:c6:71:8e', cpu: 1}
+libvirt_volumes:
+- name: beaker-test-vm1.sandbox
+  capacity: 10737418240
+  allocation: 10737418240
+sandbox:
+beaker:
+  packages: []
+# use extravars.yml to customize these
+#
+# mount your home directory
+# nfs:
+#  path:
+
+# setup SSSD to correctly write/create files with the correct UID/GUIDs
+# sandbox:
+#    user:
+#    git_repository:

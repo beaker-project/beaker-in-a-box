@@ -20,7 +20,7 @@
     </disk>
     <interface type='network'>
       <mac address='{{ item.mac }}' />
-      <source network='beaker'/>
+      <source network='{{ network.name }}'/>
       <model type='virtio'/>
     </interface>
     <memballoon model='virtio'/>

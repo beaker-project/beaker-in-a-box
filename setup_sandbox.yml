@@ -1,4 +1,7 @@
-#This playbook sets up the beaker server and lab controller
+# This playbook is used to setup a developer sandbox. It borrows some roles from
+# the Beaker in a box playbook, but sets up more to develop Beaker. This
+# playbook is by no means finished yet and can be considered work-in-progress
+# for now.
 ---
 - hosts: localhost
   become: true
@@ -11,9 +14,10 @@
       updates: http://mirror.centos.org/centos/6/updates/x86_64/
       extras: http://mirror.centos.org/centos/6/extras/x86_64/
       cr: http://mirror.centos.org/centos/6/cr/x86_64/
+      beakerclient: http://beaker-project.org/yum/client/CentOS6
     user_distros: []
   vars_files:
-    - beaker_vars.yml
+    - sandbox_vars.yml
 
   vars_prompt:
     - name: "user_key_path"
@@ -29,21 +33,20 @@
     - { role: serverlc, tags: [serverlc] }
     - { role: test-systems, tags: [systems] }
 
-- hosts: beaker-server-lc.beaker
-  remote_user: root
+- hosts: beaker-server.sandbox
+  become: yes
+  become_user: root
   vars_files:
-    - beaker_vars.yml
+    -  sandbox_vars.yml
 
   roles:
-    - { role: beaker/common, tags: [serverlc, common] }
-    - { role: beaker/setup/repos, tags: [serverlc, repos] }
+    - { role: beaker/common, tags: [sandbox, common] }
+    - { role: beaker/setup/repos, tags: [sandbox, repos] }
     - { role: beaker/setup/database,
         tags: [database],
-        databases: [ beaker ],
+        databases: [ beaker, beaker_test, beaker_migration_test ],
         users: [{ name: beaker, password: beaker }],
       }
-    - { role: beaker/setup/services, tags: [serverlc, services] }
-    - { role: beaker/data/labcontroller, tags: [serverlc, labcontroller, data] }
-    - { role: beaker/data/testsystems, tags: [serverlc, systems, data] }
-    - { role: beaker/data/distros, tags: [serverlc, distros, data] }
-    - { role: beaker/data/beakertasks, tags: [serverlc, tasks, data] }
+    - { role: beaker/sandbox/auth, tags: [sssd, auth, sandbox], when: sandbox.user is defined}
+    - { role: beaker/sandbox/nfs, tags: [nfs, sandbox], when: nfs is defined }
+    - { role: beaker/sandbox/packages, tags: [packages, dependencies], when: sandbox.git_repository is defined }

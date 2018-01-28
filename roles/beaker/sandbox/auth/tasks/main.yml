@@ -1,0 +1,49 @@
+---
+- name: Install krb
+  become: yes
+  tags: krb5
+  package:
+    name: krb5-workstation
+    state: present
+
+- name: Configure kerberos
+  become: yes
+  tags: krb5
+  template:
+    src: krb5.conf.j2
+    dest: /etc/krb5.conf
+    mode: 0644
+    owner: root
+    group: root
+
+- name: Install sssd package
+  become: yes
+  package:
+    name: sssd
+    state: present
+
+- name: Enable NSS/PAM
+  become: yes
+  command: authconfig --enablesssd --enablesssdauth --update
+
+- name: Configure sssd service
+  become: yes
+  template:
+    src: sssd.conf.j2
+    dest: /etc/sssd/sssd.conf
+    mode: 0600
+    owner: root
+    group: root
+
+- name: Enable sssd service
+  become: yes
+  service:
+    name: sssd
+    enabled: yes
+
+- name: Make sure sssd is running
+  become: yes
+  service:
+    name: sssd
+    state: started
+  register: sssd_service_started

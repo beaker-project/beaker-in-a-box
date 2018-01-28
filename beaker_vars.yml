@@ -14,6 +14,6 @@ network:
   dhcp_end: 192.168.120.254
   bootp: { file: 'pxelinux.0', server: '192.168.120.104' }
 libvirt_domains:
-    - {name: 'beaker-test-vm1.beaker', ip: '192.168.120.105', mac: '52:54:00:c6:71:8e', cpu: 1}
-    - {name: 'beaker-test-vm2.beaker', ip: '192.168.120.106', mac: '52:54:00:c6:71:8f', cpu: 1}
-    - {name: 'beaker-test-vm3.beaker', ip: '192.168.120.107', mac: '52:54:00:c6:71:90', cpu: 1}
+  - {name: 'beaker-test-vm1.beaker', ip: '192.168.120.105', mac: '52:54:00:c6:71:8e', cpu: 1}
+  - {name: 'beaker-test-vm2.beaker', ip: '192.168.120.106', mac: '52:54:00:c6:71:8f', cpu: 1}
+  - {name: 'beaker-test-vm3.beaker', ip: '192.168.120.107', mac: '52:54:00:c6:71:90', cpu: 1}

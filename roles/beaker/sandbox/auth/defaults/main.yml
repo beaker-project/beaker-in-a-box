@@ -1,0 +1,21 @@
+---
+sssd:
+  ldap_uri: ldap://ldap.example.test/
+  ldap_search_base: dc=example,dc=test
+  krb5_realm: EXAMPLE.TEST
+  krb5_server: kerberos.example.test
+  krb5_kpasswd: kerberos.example.test
+krb5_config:
+  default_realm: TEST.ORG
+  realms:
+    TEST.org:
+      - kdc:
+          "test.org.:24"
+      - admin_server:
+          "admin.test.org.:23"
+      - default_domain:
+          "test.org"
+  domain_realm:
+    - { .example.com: EXAMPLE.COM }
+    - { example.com: .COM }
+

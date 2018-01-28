@@ -1,0 +1,29 @@
+# This file is managed by ansible. Do not edit.
+[domain/default]
+cache_credentials = True
+krb5_store_password_if_offline = True
+ldap_search_base = {{ sssd.ldap_search_base }}
+chpass_provider = krb5
+id_provider = ldap
+auth_provider = krb5
+entry_cache_timeout = 5400
+override_homedir = /home/%u
+krb5_server = {{ sssd.krb5_server }}
+ldap_uri = {{ sssd.ldap_uri }}
+krb5_realm = {{ sssd.krb5_realm }}
+krb5_kpasswd = {{ sssd.krb5_kpasswd }}
+ldap_tls_cacertdir = /etc/pki/tls/certs
+
+[nss]
+filter_groups = root,wheel,adm
+filter_users = root
+reconnection_retries = 3
+entry_cache_nowait_percentage = 300
+
+[pam]
+reconnection_retries = 3
+
+[sssd]
+domains = default
+services = nss, pam
+config_file_version = 2

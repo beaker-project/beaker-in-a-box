@@ -1,7 +1,18 @@
 ---
-- include: setup_beaker.yml
-
+- import_playbook: setup_beaker.yml
 - hosts: localhost
-
+  vars_files:
+    - beaker_vars.yml
   roles:
     - { role: tests, tags: tests }
+
+- hosts: localhost
+  tasks:
+    - name: clone beaker repository
+      git:
+        repo: git://git.beaker-project.org/beaker
+        dest: /tmp/beaker
+- import_playbook: setup_sandbox.yml
+  vars:
+    sandbox:
+      git_repository: /tmp/beaker

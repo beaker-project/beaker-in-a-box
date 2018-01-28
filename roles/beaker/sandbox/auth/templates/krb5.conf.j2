@@ -1,0 +1,38 @@
+[logging]
+ default = FILE:/var/log/krb5libs.log
+ kdc = FILE:/var/log/krb5kdc.log
+ admin_server = FILE:/var/log/kadmind.log
+
+[libdefaults]
+ dns_lookup_realm = false
+ ticket_lifetime = 24h
+ renew_lifetime = 7d
+ forwardable = true
+ rdns = false
+ default_realm = {{ krb5_config['default_realm'] }}
+ default_ccache_name = KEYRING:persistent:%{uid}
+
+[realms]
+{% for key, dicts in krb5_config['realms'].items() %}
+
+{{ key }} = {
+   {% for d in dicts %}
+   {{ ' = '.join(d.items()[0]) }}
+   {% endfor %}
+}
+{% endfor %}
+
+[domain_realm]
+{% for d in krb5_config['domain_realm'] %}
+{{ ' = '.join(d.items()[0]) }}
+{% endfor %}
+
+[kdc]
+profile = /var/kerberos/krb5kdc/kdc.conf
+
+[pam]
+debug = false
+ticket_lifetime = 36000
+renew_lifetime = 36000
+forwardable = true
+krb4_convert = false

@@ -1,0 +1,55 @@
+---
+- name: ensure nfs packages are installed
+  become: yes
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - rpcbind
+    - nfs-utils
+
+- name: enable nfs services to start on boot
+  become: yes
+  service:
+    name: "{{ item }}"
+    enabled: yes
+  with_items:
+    - rpcbind
+    - nfs
+
+- name: configure local NFS export
+  become: yes
+  local_action: lineinfile dest=/etc/exports line="{{ nfs.path }} *.{{ network.name}}(rw)"
+
+- name: locally apply configuration
+  become: yes
+  local_action: service name=nfs state=restarted
+
+- name: Make sure nfs services are running
+  become: yes
+  service:
+    name: "{{ item }}"
+    state: started
+  with_items:
+    - rpcbind
+    - nfs
+
+- name: ensure mountable directory is present
+  become: yes
+  file:
+    path: "{{ nfs.path }}"
+    state: directory
+    mode: 700
+    owner: "{{ sandbox.user }}"
+    group: "{{ sandbox.user }}"
+
+- name: mount local NFS home
+  become: yes
+  mount:
+    name: "{{ nfs.path }}"
+    src: "{{ network.ip_address }}:{{ nfs.path }}"
+    fstype: nfs
+    opts: defaults
+    dump: 0
+    passno: 0
+    state: mounted

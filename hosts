@@ -3,3 +3,6 @@ localhost ansible_connection=local
 
 [serverlc]
 beaker-server-lc.beaker
+
+[sandbox]
+beaker-server.sandbox ansible_user=root

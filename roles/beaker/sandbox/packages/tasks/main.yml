@@ -1,0 +1,41 @@
+---
+- name: install build dependencies
+  command: "yum-builddep -y {{ sandbox.git_repository }}/beaker.spec"
+
+- name: install runtime dependencies
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python-gunicorn
+    - nodejs-less
+    - syslinux-tftpboot
+    - cobbler
+    - libvirt-client
+    - firefox # for tests
+    - openldap-servers
+    - python-gunicorn
+    - python-isodate
+    - python-kerberos
+    - python-lockfile
+    - python-nose-progressive
+    - python-rdflib
+    - python-requests-kerberos
+    - python-tgexpandingformwidget
+    - selenium-python
+    - uglify-js
+    - xorg-x11-server-Xvfb
+    - pylint
+    - PyXML  # needed by beah and used on Jenkins in dogfood tests
+    - xz  # to import database dumps
+    - rhts-devel # to build task RPMs
+    - beakerlib
+
+- name: install auxiliary tools
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - git
+    - python-virtualenv
+    - pytest
