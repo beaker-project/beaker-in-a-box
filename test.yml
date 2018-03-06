@@ -1,6 +1,6 @@
 ---
 - import_playbook: setup_beaker.yml
-- hosts: localhost
+- hosts: beaker-server-lc.beaker
   vars_files:
     - beaker_vars.yml
   roles:

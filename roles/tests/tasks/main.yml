@@ -4,3 +4,6 @@
     url: "http://{{ network.hosts[0].name }}/bkr"
     method: GET
     status_code: 200
+
+- name: inventory one of the added test machines
+  command: "bkr update-inventory --xml --wait {{ network.hosts[1].name }}"
