@@ -42,8 +42,9 @@
         databases: [ beaker ],
         users: [{ name: beaker, password: beaker }],
       }
-    - { role: beaker/setup/services, tags: [serverlc, services] }
     - { role: beaker/data/labcontroller, tags: [serverlc, labcontroller, data] }
+    - { role: beaker/setup/services, tags: [serverlc, services] }
+    - { role: beaker/setup/client, tags: [serverlc, client] }
     - { role: beaker/data/testsystems, tags: [serverlc, systems, data] }
     - { role: beaker/data/distros, tags: [serverlc, distros, data] }
     - { role: beaker/data/beakertasks, tags: [serverlc, tasks, data] }

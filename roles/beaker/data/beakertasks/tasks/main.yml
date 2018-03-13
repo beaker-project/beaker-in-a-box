@@ -1,16 +1,4 @@
 ---
-- name: ensure Beaker client is installed
-  package:
-    name: "beaker-client"
-    state: present
-
-- name: configure client
-  template:
-    src: client.conf.j2
-    dest: "/etc/beaker/client.conf"
-    mode: 0600
-    owner: root
-
 - name: create temporary directory
   shell: mktemp -d
   register: tempdir

@@ -1,0 +1,16 @@
+---
+- name: make sure beaker client is present
+  package:
+    name: beaker-client
+    state: present
+
+- name: configure beaker client
+  template:
+    src: client.conf.j2
+    dest: /etc/beaker/client.conf
+    mode: 0600
+    owner: root
+    group: root
+
+- name: check if client can connect to server
+  command: bkr whoami

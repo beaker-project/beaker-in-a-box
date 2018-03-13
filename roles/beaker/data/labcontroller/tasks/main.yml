@@ -5,5 +5,3 @@
 - name: add ourselves as a lab controller
   command: sh /usr/local/bin/add_new_lc.sh {{ beaker_server_admin_user }} {{ beaker_server_admin_pass }}
   notify: restart beaker services
-
-- meta: flush_handlers

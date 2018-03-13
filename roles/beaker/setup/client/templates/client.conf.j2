@@ -1,0 +1,9 @@
+# File created by ansible from beaker-in-a-box
+# Base URL of the Beaker server (without trailing slash!)
+HUB_URL = "http://{{ network.hosts[0].name }}/bkr"
+
+# Hub authentication method
+AUTH_METHOD = "password"
+
+USERNAME = "{{ beaker_server_admin_user }}"
+PASSWORD = "{{ beaker_server_admin_pass }}"

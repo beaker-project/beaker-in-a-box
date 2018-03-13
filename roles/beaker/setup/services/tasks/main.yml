@@ -18,7 +18,7 @@
     - beakerd
 
 - name: enable beaker services
-  service: name={{ item }} enabled=yes
+  service: name={{ item }} state=started enabled=yes
   with_items:
     - xinetd
     - beaker-proxy
