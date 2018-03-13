@@ -1,6 +1,5 @@
 ---
-- name: transfer the add_test_systems script
-  copy: src=add_test_systems.sh dest=/usr/local/bin/add_test_systems.sh owner=root group=root mode=0755 backup=no
-
-- name: run add_test_systems script
-  command: sh /usr/local/bin/add_test_systems.sh {{ beaker_server_admin_user }} {{ beaker_server_admin_pass }}
+- name: add test systems via beaker client
+  command: bkr system-create --lab-controller "{{ network.hosts[0].name }}" --arch=x86_64 --arch=i386 --power-type=virsh --power-address=qemu+ssh:"{{ network.ip_address }}" --power-id="{{ item.name }}" --condition=Automated "{{ item.name }}"
+  with_items:
+    - "{{ libvirt_domains }}"
