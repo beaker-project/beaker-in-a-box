@@ -19,10 +19,10 @@
     name: "{{ item.name }}"
     command: define
     xml: "{{ lookup('template', 'domain.xml.j2') }}"
-  with_items: "{{ libvirt_domains }}"
+  with_items: "{{ network.hosts[1:] }}"
 
 - name: Enable test systems
   virt:
     name: "{{ item.name }}"
     state: shutdown
-  with_items: "{{ libvirt_domains }}"
+  with_items: "{{ network.hosts[1:] }}"
