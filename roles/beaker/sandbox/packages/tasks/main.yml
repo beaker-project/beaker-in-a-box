@@ -39,6 +39,7 @@
     - git
     - python-virtualenv
     - pytest
+    - python-sphinx
 
 - name: install Juno OpenStack package repository
   copy:
