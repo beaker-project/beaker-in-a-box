@@ -13,6 +13,7 @@
       git:
         repo: git://git.beaker-project.org/beaker
         dest: /tmp/beaker
+        track_submodules: yes
 - import_playbook: setup_sandbox.yml
   vars:
     sandbox:

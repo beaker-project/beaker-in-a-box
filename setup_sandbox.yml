@@ -28,6 +28,7 @@
       default: "~/.ssh/id_rsa.pub"
 
   roles:
+    - { role: beaker/sandbox/precheck }
     - { role: local, tags: [local] }
     - { role: libvirt, tags: [network] }
     - { role: serverlc, tags: [serverlc] }
@@ -47,6 +48,6 @@
         databases: [ beaker, beaker_test, beaker_migration_test ],
         users: [{ name: beaker, password: beaker }],
       }
-    - { role: beaker/sandbox/auth, tags: [sssd, auth, sandbox], when: sandbox.user is defined}
-    - { role: beaker/sandbox/nfs, tags: [nfs, sandbox], when: nfs is defined }
+    - { role: beaker/sandbox/auth, tags: [sssd, auth, sandbox], when: sssd.use}
+    - { role: beaker/sandbox/nfs, tags: [nfs, sandbox], when: nfs.use }
     - { role: beaker/sandbox/packages, tags: [packages, dependencies], when: sandbox.git_repository is defined }

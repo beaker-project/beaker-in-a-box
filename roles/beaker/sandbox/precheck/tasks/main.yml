@@ -1,0 +1,18 @@
+---
+- debug:
+    msg: "To deploy the sandbox, you'll need to clone Beaker's sources and point the sandbox.git_repository variable to your clone: {{ developer_doc.source_code_url }}"
+  failed_when: sandbox.git_repository is not defined
+
+- name: "gather Beaker clone information under {{ sandbox.git_repository }}"
+  local_action: command git config --list chdir="{{ sandbox.git_repository }}"
+  register: beaker_git_info
+
+- name: "check if NFS {{ nfs.path }} is accessible"
+  local_action: stat path="{{ nfs.path }}"
+  when: nfs.use
+  register: nfs_stat_result
+
+- debug:
+    msg: "The directory {{ nfs.path }} to be exported for the sandbox doesn't seem to exist."
+  failed_when: not (nfs_stat_result.stat.isdir is defined and nfs_stat_result.stat.isdir)
+  when: nfs.use

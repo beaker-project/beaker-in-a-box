@@ -16,16 +16,30 @@ libvirt_volumes:
 - name: beaker-test-vm1.sandbox.img
   capacity: 10737418240
   allocation: 10737418240
-sandbox:
 beaker:
   packages: []
-# use extravars.yml to customize these
 #
-# mount your home directory
-# nfs:
-#  path:
-
-# setup SSSD to correctly write/create files with the correct UID/GUIDs
-# sandbox:
-#    user:
-#    git_repository:
+# Point the sandbox.git_repository variable to your local Beaker git clone
+#
+sandbox:
+  git_repository:
+#
+# Use SSSD and LDAP to cache credentials and use the same user as it is on the
+# host.
+#
+sssd:
+  use: false
+  user: "{{ lookup('env', 'USER') }}"
+  ldap_uri: ldap://ldap.example.test/
+  ldap_search_base: dc=example,dc=test
+  krb5_realm: EXAMPLE.TEST
+  krb5_server: kerberos.example.test
+  krb5_kpasswd: kerberos.example.test
+#
+# Mount your home directory so you have easy access to your Beaker clone
+#
+nfs:
+  use: true
+  path: "{{ lookup('env', 'HOME') }}"
+  user: "{{ lookup('env', 'USER') }}"
+  uid: "{{ lookup('pipe', 'id -u') }}"

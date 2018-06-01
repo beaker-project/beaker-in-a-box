@@ -1,4 +1,12 @@
 ---
+- name: Create a local user if sssd is not used
+  become: yes
+  user:
+    name: "{{ nfs.user }}"
+    groups: wheel
+    uid: "{{ nfs.uid }}"
+  when: not sssd.use
+
 - name: ensure nfs packages are installed
   become: yes
   package:
@@ -40,8 +48,8 @@
     path: "{{ nfs.path }}"
     state: directory
     mode: 700
-    owner: "{{ sandbox.user }}"
-    group: "{{ sandbox.user }}"
+    owner: "{{ nfs.user }}"
+    group: "{{ nfs.user }}"
 
 - name: mount local NFS home
   become: yes
