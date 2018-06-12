@@ -13,7 +13,7 @@ network:
 libvirt_domains:
     - {name: 'beaker-test-vm1.sandbox', ip: '192.168.130.105', mac: '52:54:00:c6:71:8e', cpu: 1}
 libvirt_volumes:
-- name: beaker-test-vm1.sandbox
+- name: beaker-test-vm1.sandbox.img
   capacity: 10737418240
   allocation: 10737418240
 sandbox:
