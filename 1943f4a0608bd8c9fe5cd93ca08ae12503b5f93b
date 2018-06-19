@@ -1,0 +1,9 @@
+Ready-for-Checks+1: Jacob McKenzie <jmckenzi@redhat.com>
+Code-Review+1: Roman Joost <rjoost@redhat.com>
+Code-Review+2: Matt Tyson <mtyson@redhat.com>
+Verified+1: Jacob McKenzie <jmckenzi@redhat.com>
+Submitted-by: Jacob McKenzie <jmckenzi@redhat.com>
+Submitted-at: Tue, 19 Jun 2018 01:27:50 +0000
+Reviewed-on: https://gerrit.beaker-project.org/6133
+Project: beaker-in-a-box
+Branch: refs/heads/master
