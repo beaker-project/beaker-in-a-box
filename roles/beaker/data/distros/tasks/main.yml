@@ -11,12 +11,17 @@
     - http://mirror.centos.org/centos/6/os/i386/
     - http://mirror.centos.org/centos/7/os/x86_64/
 
-- name: import current Fedora releases
+- name: import Fedora releases
+  command: beaker-import --family=Fedora --arch=x86_64 {{ item }}
+  with_items:
+    - http://download.fedoraproject.org/pub/fedora/linux/releases/26
+    - http://download.fedoraproject.org/pub/fedora/linux/releases/27
+
+- name: import Fedora 28 tree
   command: beaker-import --family=Fedora {{ item }}
   with_items:
-    - http://download.fedoraproject.org/pub/fedora/linux/releases/25/Server/x86_64/os/
-    - http://download.fedoraproject.org/pub/fedora/linux/releases/25/Server/i386/os/
-    - http://download.fedoraproject.org/pub/fedora/linux/releases/26/Server/x86_64/os/
+    - http://download.fedoraproject.org/pub/fedora/linux/releases/28/Server/x86_64/os/
+    - http://download.fedoraproject.org/pub/fedora/linux/releases/28/Workstation/x86_64/os/
 
 - name: run beaker-repo-update
   command: beaker-repo-update
