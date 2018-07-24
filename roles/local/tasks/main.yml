@@ -1,12 +1,7 @@
 ---
-- name: check ssh key existance
-  stat:
-    path: "{{ user_key_path }}"
-    get_checksum: False
-    get_md5: False
-    get_mime: False
-  register: user_key_info
-  failed_when: user_key_info.stat.exists == False
+- debug:
+    msg: "No SSH key set without which you can not log into beaker-in-a-box. Set the user_key_path variable to a valid SSH public key filename"
+  failed_when: not user_key
 
 - name: ensure local packages are installed for the playbook
   package:
