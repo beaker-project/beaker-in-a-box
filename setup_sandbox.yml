@@ -26,6 +26,12 @@
               generated with 'mkdir -p ~/.ssh && ssh-keygen'"
       private: no
       default: "~/.ssh/id_rsa.pub"
+    - name: "storage_pool_name"
+      prompt: "What is the name of the libvirt storage pool
+              you would like to use (virsh pool-list --all)?"
+      private: no
+      default: "default"
+
 
   roles:
     - { role: beaker/sandbox/precheck }
