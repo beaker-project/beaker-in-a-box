@@ -1,1 +1,40 @@
 .vagrant/
+
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# Generated files
+.idea/**/contentModel.xml
+
+# Sensitive or high-churn files
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+.idea/**/dbnavigator.xml
+
+# Gradle
+.idea/**/gradle.xml
+.idea/**/libraries
+
+# Fact caching to save time
+facts_cache
+
+# Created by Ansible in case of failure
+*.retry
+
+# Playbook logs
+*.log
+# Local admin settings
+# (ansible_become_pass for eg, provided your machine's storage is encrypted)
+group_vars/all/local_settings.yml
+# Python optimized files
+*.pyo
+*.pyc
+__pycache__
