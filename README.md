@@ -2,7 +2,7 @@
 Beaker in a box provides a way of using Ansible to install and configure a complete working Beaker environment, 
 including three virtual guests(VMs) to act as test systems. 
 This guide assumes that you already have Ansible installed and working,
-also have a spare system capable of KVM virtualization with at least 4GB of RAM running on Fedora 21.
+also have a spare system capable of KVM virtualization with at least 4GB of RAM running on Fedora 29.
 
 ## Package Prerequisites
 ```
