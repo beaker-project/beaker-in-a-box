@@ -14,7 +14,8 @@
 - name: import Fedora releases
   command: beaker-import --family=Fedora --arch=x86_64 {{ item }}
   with_items:
-    - http://download.fedoraproject.org/pub/fedora/linux/releases/27
+    - http://download.fedoraproject.org/pub/fedora/linux/releases/29
+    - http://download.fedoraproject.org/pub/fedora/linux/releases/30
 
 - name: import Fedora 28 tree
   command: beaker-import --family=Fedora {{ item }}
