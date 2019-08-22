@@ -1,10 +1,10 @@
-# Beaker is developed and tested on Red Hat Enterprise Linux 6, but any
+# Beaker is developed and tested on Red Hat Enterprise Linux 7, but any
 # compatible distro should work as well.
 url --url={{ netinstall_url }}
 {% for name, url in kickstart_repos.items() %}
 repo --name={{ name }} --baseurl={{ url }}
 {% endfor %}
-repo --name=beaker-server --baseurl=http://beaker-project.org/yum/server/RedHatEnterpriseLinux6/
+repo --name=beaker-server --baseurl=http://beaker-project.org/yum/server/RedHatEnterpriseLinux7/
 
 # The usual installation stuff. Beaker has no particular requirements here.
 auth --useshadow --enablemd5
