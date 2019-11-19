@@ -1,13 +1,14 @@
 ---
 - name: create temporary directory
-  shell: mktemp -d
+  tempfile:
+    state: directory
   register: tempdir
 
 - name: download task rpms
-  command: wget -r -np -nc -P "{{ tempdir.stdout }}" https://beaker-project.org/tasks/
+  command: wget -r -np -nc -P "{{ tempdir.path }}" https://beaker-project.org/tasks/
 
 - name: find rpms
-  shell: ls {{ tempdir.stdout }}/beaker-project.org/tasks/*.rpm
+  shell: ls {{ tempdir.path }}/beaker-project.org/tasks/*.rpm
   register: rpms
 
 - name: add tasks to beaker server
@@ -20,4 +21,6 @@
   failed_when: "'Exception' in import_result.stderr and 'duplicate' not in import_result.stderr"
 
 - name: remove temporary directory
-  file: path={{ tempdir.stdout }} state=absent
+  file:
+    path={{ tempdir.path }}
+    state=absent
