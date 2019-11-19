@@ -1,5 +1,6 @@
 ---
 - name: add test systems via beaker client
   command: bkr system-create --lab-controller "{{ network.hosts[0].name }}" --arch=x86_64 --arch=i386 --power-type=virsh --power-address=qemu+ssh:"{{ network.ip_address }}" --power-id="{{ item.name }}" --condition=Automated "{{ item.name }}"
+  ignore_errors: yes
   with_items:
     - "{{ network.hosts[1:] }}"
