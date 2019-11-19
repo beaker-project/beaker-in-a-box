@@ -10,6 +10,8 @@ on:
 
 jobs:
   build:
+    env:
+      ANSIBLE_FORCE_COLOR: 'true'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -32,17 +34,15 @@ jobs:
         ansible --version
         flake8 --version
         ansible-lint --version
+        echo "::set-env name=EXT_ROLES_DIRS::$(find . -mindepth 2 -name '.galaxy_install_info' -printf '%h ' | xargs -n 1 dirname | paste -sd "," -)"
     - name: Test with flake8
       run: |
-        export EXT_ROLES_DIRS=$(find . -mindepth 2 -name ".galaxy_install_info" -printf "%h " | xargs -n 1 dirname)
-        flake8 --exclude=plugins/strategy/mitogen_linear.py,$(echo ${EXT_ROLES_DIRS} | tr ' ' ',') --ignore=E126,E131,E302,E303,E501,W391 .
+        flake8 --exclude=plugins/strategy/mitogen_linear.py,${EXT_ROLES_DIRS} --ignore=E126,E131,E302,E303,E501,W391 .
     - name: Run Ansible lint
       run: |
-        export EXT_ROLES_DIRS=$(find . -mindepth 2 -name ".galaxy_install_info" -printf "%h " | xargs -n 1 dirname)
-        ansible-lint -p --nocolor $(echo ${EXT_ROLES_DIRS} | sed -r 's/\./--exclude=\./g') -x 204,405,602,702 playbooks/*.yml
+        ansible-lint -p --nocolor $(echo ${EXT_ROLES_DIRS} | tr ',' ' ' |sed -r 's/\./--exclude=\./g') -x 204,405,602,702 playbooks/*.yml
     - name: Check syntax
       run: |
         find -maxdepth 1 -name '*setup*.yml' | xargs -n 1 ansible-playbook --syntax-check
-      env:
-        ANSIBLE_FORCE_COLOR: 'true'
+
 
