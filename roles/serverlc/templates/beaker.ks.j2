@@ -36,8 +36,8 @@ selinux --disabled
 {% for p in beaker.packages %}
 {{ p }}
 {% endfor %}
-mysql-server
-MySQL-python
+mariadb
+mariadb-server
 autofs
 mod_ssl
 tftp-server
@@ -48,10 +48,9 @@ set -x -v
 exec 1>/root/ks-post.log 2>&1
 
 # Turn on some services which are needed.
-chkconfig mysqld on
-chkconfig httpd on
-chkconfig xinetd on
-chkconfig tftp on
+systemctl enable mariadb
+systemctl enable httpd
+systemctl enable tftp.socket
 
 cat <<EOF >>/etc/motd
 Welcome to Beaker!
