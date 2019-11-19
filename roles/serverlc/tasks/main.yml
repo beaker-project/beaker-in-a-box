@@ -8,7 +8,10 @@
   - virt-viewer
 
 - name: prepare kickstart
-  local_action: template src=beaker.ks.j2 dest=/tmp/beaker.ks
+  delegate_to: localhost
+  template:
+    src=beaker.ks.j2
+    dest=/tmp/beaker.ks
 
 - name: query libvirt machines
   virt:
@@ -33,7 +36,7 @@
            --graphics vnc
            --hvm
            --virt-type kvm
-           --disk "size=20,pool={{storage_pool_name}}"
+           --disk "size=20,pool={{ storage_pool_name }}"
            --check all=on
            --noreboot
   when: network.hosts[0].name not in existing_virt_machines.list_vms
@@ -48,7 +51,10 @@
 
 - name: wait for server/lab controller to start
   become: false
-  local_action: wait_for host={{ network.hosts[0].name }} port=22
+  delegate_to: localhost
+  wait_for:
+    host={{ network.hosts[0].name }}
+    port=22
 
 # Add the hostname and the ip to the known hosts. The IP can get added if the
 # user logs in via ssh. If we don't keep it in sync, the next time the user

@@ -26,14 +26,22 @@
 
 - name: accept root@labcontroller ssh key locally
   become: true
-  local_action: authorized_key user=root key={{ root_ssh_pub_key.stdout }}
+  delegate_to: localhost
+  authorized_key:
+    user=root
+    key={{ root_ssh_pub_key.stdout }}
 
 - name: ensure sshd runs locally to read local ssh hostkeys
   become: true
-  local_action: service name=sshd enabled=yes state=started
+  delegate_to: localhost
+  service:
+    name=sshd
+    enabled=yes
+    state=started
 
 - name: read local ssh hostkey
-  local_action: command ssh-keyscan -T 10 -t rsa {{ network.ip_address }}
+  delegate_to: localhost
+  command: ssh-keyscan -T 10 -t rsa {{ network.ip_address }}
   register: local_ssh_host_key
 
 - name: add host key to known hosts file for root@labcontroller
