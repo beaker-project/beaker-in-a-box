@@ -1,7 +1,5 @@
 ---
-- name: transfer the script
-  copy: src=add_new_lc.sh dest=/usr/local/bin/add_new_lc.sh owner=root group=root mode=0755 backup=no
-
-- name: add ourselves as a lab controller
-  command: sh /usr/local/bin/add_new_lc.sh {{ beaker_server_admin_user }} {{ beaker_server_admin_pass }}
+- name: add beaker-server as a lab controller also
+  command: bkr labcontroller-create --fqdn={{ inventory_hostname }} --user=host/localhost.localdomain --password=password --email=root@localhost.localdomain
   notify: restart beaker services
+  ignore_errors: yes
