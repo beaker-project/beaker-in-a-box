@@ -40,7 +40,7 @@ jobs:
         flake8 --exclude=plugins/strategy/mitogen_linear.py,${EXT_ROLES_DIRS} --ignore=E126,E131,E302,E303,E501,W391 .
     - name: Run Ansible lint
       run: |
-        ansible-lint -p --nocolor $(echo ${EXT_ROLES_DIRS} | tr ',' ' ' |sed -r 's/\./--exclude=\./g') -x 204,405,602,702 playbooks/*.yml
+        ansible-lint -p --nocolor $(echo ${EXT_ROLES_DIRS} | tr ',' ' ' |sed -r 's/\./--exclude=\./g') -x 204 playbooks/*.yml
     - name: Check syntax
       run: |
         find -maxdepth 1 -name '*setup*.yml' | xargs -n 1 ansible-playbook --syntax-check
