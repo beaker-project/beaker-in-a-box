@@ -2,7 +2,7 @@
 - name: restart beaker services
   service: name={{ item }} state=restarted
   with_items:
-    - xinetd
+    - tftp.socket
     - beaker-proxy
     - beaker-provision
     - beaker-watchdog
