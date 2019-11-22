@@ -27,6 +27,7 @@
   virt_net:
     state: active
     name: "{{ network.name }}"
+    autostart: "{{ network.autostart }}"
 
 - name: gather facts about storage pools
   virt_pool:
