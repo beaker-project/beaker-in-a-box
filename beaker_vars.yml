@@ -3,6 +3,7 @@ network:
   name: beaker
   forward: nat
   mac: '52:54:00:6B:11:87'
+  autostart: yes
   hosts:
     - {mac: '52:54:00:c6:73:4f', name: 'beaker-server-lc.beaker', ip: '192.168.120.104'}
     - {mac: '52:54:00:c6:71:8e', name: 'beaker-test-vm1.beaker', ip: '192.168.120.105'}
