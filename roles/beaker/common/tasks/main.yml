@@ -4,6 +4,11 @@
     name: libselinux-python
     state: present
 
+- name: be sure vim is installed
+  package:
+    name: vim
+    state: present
+
 - name: disable selinux
   selinux:
     state=disabled
