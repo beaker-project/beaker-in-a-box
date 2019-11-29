@@ -1,36 +1,65 @@
 # This playbook sets the MariaDB SQL server.
 ---
-- name: set mysql facts on Redhat or CentoOS systems
-  set_fact: mysql_service="mysqld" is_mysql_server=true
-  when: ansible_distribution in ("RedHat", "CentOS") and ansible_distribution_major_version|int <= 6
 
-- name: set mariadb facts on Redhat or CentoOS systems
-  set_fact: mysql_service="mariadb" is_mysql_server=false
-  when: ansible_distribution in ("RedHat", "CentOS") and ansible_distribution_major_version|int > 6
+- name: set SCL MariaDB facts on Redhat/CentOS systems
+  set_fact:
+    mysql_service: "rh-mariadb102-mariadb"
+    is_scl_server: true
+    my_cnf_location: "/etc/opt/rh/rh-mariadb102/my.cnf"
+  when: ansible_distribution in ("RedHat", "CentOS")
 
-- name: set mariadb facts on Fedora systems
-  set_fact: mysql_service="mariadb" is_mysql_server=false
+- name: set MariaDB facts on Fedora systems
+  set_fact:
+    mysql_service: "mariadb"
+    is_scl_server: false
+    my_cnf_location: "/etc/my.cnf"
   when: ansible_distribution == "Fedora"
 
-- name: install mysql-server package
-  package: name=mysql-server state=present
-  when: is_mysql_server
-
 - name: install mariadb-server package
-  package: name=mariadb-server state=present
-  when: not is_mysql_server
+  package:
+    name: mariadb-server
+    state: present
+  when: not is_scl_server
 
-- name: copy mysql config
-  copy: src=my.cnf dest=/etc/my.cnf owner=root mode=0600 backup=yes
+- name: install SCL
+  package:
+    name: centos-release-scl
+    state: present
+  when: is_scl_server
+
+- name: enable SCL repository
+  command: yum-config-manager --enable rhel-server-rhscl-7-rpms
+  when: is_scl_server
+
+- name: install SCL RH-MariaDB 10.2 package
+  package:
+    name: rh-mariadb102
+    state: present
+  when: is_scl_server
+
+- name: copy MariaDB config
+  copy:
+    src: my.cnf
+    dest: "{{ my_cnf_location }}"
+    owner: root
+    mode: 0600
+    backup: yes
 
 - name: Create the directory /etc/mysql/conf.d
-  file: path=/etc/mysql/conf.d state=directory
+  file:
+    path: /etc/mysql/conf.d
+    state: directory
 
 - name: start sql service and enable the service
-  service: name={{ mysql_service }} state=started enabled=yes
+  service:
+    name: "{{ mysql_service }}"
+    state: started
+    enabled: yes
 
 - name: create the beaker database
-  mysql_db: name={{ item }} state=present
+  mysql_db:
+    name: "{{ item }}"
+    state: present
   with_items: "{{ databases }}"
 
 - name: create beaker user
@@ -47,3 +76,4 @@
 - name: initialize beaker database
   command: beaker-init -u {{ beaker_server_admin_user }} -p {{ beaker_server_admin_pass }} -e {{ beaker_server_email }}
   when: beaker_server_admin_user is defined
+
