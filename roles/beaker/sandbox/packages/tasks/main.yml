@@ -9,42 +9,42 @@
 
 - name: install runtime dependencies
   package:
-    name: "{{ item }}"
+    name:
+        - python-gunicorn
+        - nodejs-less
+        - syslinux-tftpboot
+        - libvirt-client
+        - firefox # for tests
+        - openldap-servers
+        - python-gunicorn
+        - python-gssapi
+        - python-qpid-proton
+        - python-mock
+        - python-pwquality
+        - python-isodate
+        - python-kerberos
+        - python-lockfile
+        - python-nose-progressive
+        - python-rdflib
+        - python-requests-kerberos
+        - python-tgexpandingformwidget
+        - selenium-python
+        - uglify-js
+        - xorg-x11-server-Xvfb
+        - pylint
+        - xz  # to import database dumps
+        - rhts-devel # to build task RPMs
+        - beakerlib
     state: present
-  with_items:
-    - python-gunicorn
-    - nodejs-less
-    - syslinux-tftpboot
-    - cobbler
-    - libvirt-client
-    - firefox # for tests
-    - openldap-servers
-    - python-gunicorn
-    - python-isodate
-    - python-kerberos
-    - python-lockfile
-    - python-nose-progressive
-    - python-rdflib
-    - python-requests-kerberos
-    - python-tgexpandingformwidget
-    - selenium-python
-    - uglify-js
-    - xorg-x11-server-Xvfb
-    - pylint
-    - PyXML  # needed by beah and used on Jenkins in dogfood tests
-    - xz  # to import database dumps
-    - rhts-devel # to build task RPMs
-    - beakerlib
 
 - name: install auxiliary tools
   package:
-    name: "{{ item }}"
     state: present
-  with_items:
-    - git
-    - python-virtualenv
-    - pytest
-    - python-sphinx
+    name:
+        - git
+        - python-virtualenv
+        - pytest
+        - python-sphinx
 
 - name: install Juno OpenStack package repository
   copy:
