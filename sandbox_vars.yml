@@ -18,7 +18,7 @@ libvirt_volumes:
   capacity: 10737418240
   allocation: 10737418240
 beaker:
-  packages: []
+  packages: ['MySQL-python']
 #
 # Point the sandbox.git_repository variable to your local Beaker git clone
 #
