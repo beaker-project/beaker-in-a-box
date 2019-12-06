@@ -46,33 +46,16 @@
         - pytest
         - python-sphinx
 
-- name: install Juno OpenStack package repository
-  copy:
-    src: centos-openstack-juno.repo
-    dest: /etc/yum.repos.d/centos-openstack-juno.repo
-    owner: root
-    group: root
-    mode: 0644
-
-- name: copy CentOS Cloud SIG key
-  copy:
-    src: CentOS-Cloud-SIG-key.asc
-    dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud
-    owner: root
-    group: root
-    mode: 0600
-
-- name: import CentOS Cloud SIG key
-  rpm_key:
-    state: present
-    key: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud
-
-- name: install Juno OpenStack packages
+- name: Install SIG Cloud OpenStack
   package:
-    name: "{{ item }}"
+    name: centos-release-openstack-train
     state: present
-  with_items:
-    - python-keystoneclient
-    - python-glanceclient
-    - python-novaclient
-    - python-neutronclient
+
+- name: install OpenStack packages
+  package:
+    state: present
+    name:
+        - python-keystoneclient
+        - python-glanceclient
+        - python-novaclient
+        - python-neutronclient
