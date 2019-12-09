@@ -31,7 +31,7 @@
            --initrd-inject /tmp/beaker.ks
            --extra-args "ks=file:/beaker.ks ip=dhcp"
            --os-type Linux
-           --os-variant rhel6
+           --os-variant rhel7
            --network network={{ network.name }},mac={{ network.hosts[0].mac }}
            --graphics vnc
            --hvm
