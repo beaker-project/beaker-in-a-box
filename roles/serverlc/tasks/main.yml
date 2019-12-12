@@ -42,7 +42,11 @@
   when: network.hosts[0].name not in existing_virt_machines.list_vms
 
 - name: add hostname mapping
-  lineinfile: dest=/etc/hosts line="{{ network.hosts[0].ip }} {{ network.hosts[0].name }}"
+  lineinfile:
+    dest: /etc/hosts
+    line: "{{ item.ip }} {{ item.name }}"
+  loop: "{{ network.hosts }}"
+
 
 - name: start server/lab controller after installation
   virt:
