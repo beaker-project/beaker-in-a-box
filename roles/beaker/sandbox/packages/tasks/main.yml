@@ -14,7 +14,9 @@
         - nodejs-less
         - syslinux-tftpboot
         - libvirt-client
-        - firefox # for tests
+        - bzip2 # firefox dep
+        - gtk3 # firefox dep
+        - libXt # firefox dep
         - openldap-servers
         - python-gunicorn
         - python-gssapi
@@ -59,3 +61,32 @@
         - python-glanceclient
         - python-novaclient
         - python-neutronclient
+
+- name: Download Firefox 52 # For selenium compatibility
+  get_url:
+    url: https://ftp.mozilla.org/pub/firefox/releases/52.7.0esr/linux-x86_64/en-US/firefox-52.7.0esr.tar.bz2
+    dest: /firefox-52.7.0esr.tar.bz2
+
+- name: Remove firefox package
+  package:
+    name: firefox
+    state: absent
+
+- name: Create Firefox directory
+  file:
+    path: /opt/firefox-52.7.0esr
+    state: directory
+    mode: 0755
+
+- name: Unpack Firefox
+  unarchive:
+    src: /firefox-52.7.0esr.tar.bz2
+    dest: /opt/firefox-52.7.0esr
+    remote_src: true
+    creates: /opt/firefox-52.7.0esr/firefox/firefox
+
+- name: Create symlink for Firefox
+  file:
+    src: /opt/firefox-52.7.0esr/firefox/firefox
+    dest: /usr/bin/firefox
+    state: link
