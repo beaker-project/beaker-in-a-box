@@ -16,8 +16,8 @@
 - name: import Fedora releases
   command: beaker-import --family=Fedora --arch=x86_64 {{ item }}
   with_items:
-    - http://download.fedoraproject.org/pub/fedora/linux/releases/30
     - http://download.fedoraproject.org/pub/fedora/linux/releases/31
+    - http://download.fedoraproject.org/pub/fedora/linux/releases/32
   ignore_errors: yes
 
 - name: run beaker-repo-update
