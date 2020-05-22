@@ -48,20 +48,6 @@
         - pytest
         - python-sphinx
 
-- name: Install SIG Cloud OpenStack
-  package:
-    name: centos-release-openstack-train
-    state: present
-
-- name: install OpenStack packages
-  package:
-    state: present
-    name:
-        - python-keystoneclient
-        - python-glanceclient
-        - python-novaclient
-        - python-neutronclient
-
 - name: Download Firefox 52 # For selenium compatibility
   get_url:
     url: https://ftp.mozilla.org/pub/firefox/releases/52.7.0esr/linux-x86_64/en-US/firefox-52.7.0esr.tar.bz2
