@@ -1,6 +1,0 @@
-[centos-openstack-juno]
-name=CentOS - OpenStack - Juno
-baseurl=http://vault.centos.org/centos/6.9/cloud/x86_64/openstack-juno/
-enabled=1
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud
