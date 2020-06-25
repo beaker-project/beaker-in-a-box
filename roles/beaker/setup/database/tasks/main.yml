@@ -37,6 +37,12 @@
     state: present
   when: is_scl_server
 
+- name: install system-wide wrapper for RH-MariaDB
+  package:
+    name: rh-mariadb102-mariadb-syspaths
+    state: present
+  when: is_scl_server
+
 - name: copy MariaDB config
   copy:
     src: my.cnf
